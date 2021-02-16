@@ -13,13 +13,18 @@ const db = firebase.firestore();
 
 $(document).ready(function () {
   $("#button").on("click", () => {
-    const lastName = $("#lastName").val();
-    db.collection("users")
+    const Name = $("#Name").val();
+    const Sex = $("#Sex").val();
+    const Age = $("#Age").val();
+    const expert = $("#expert").val();
+    if(Name&&Sex&&Age&&expert){
+    if(window.confirm("この内容で登録しますか？")){
+    db.collection("doctor")
       .add({
-        id: 1,
-        firstName: "Yamada",
-        lastName: lastName,
-        age: 20,
+        Name: Name,
+        Sex: Sex,
+        Age: Age,
+        expert: expert
       })
       .then(function (docRef) {
         console.log("Document written with ID: ", docRef.id);
@@ -28,14 +33,16 @@ $(document).ready(function () {
       .catch(function (error) {
         console.error("Error adding document: ", error);
       });
+    }else{;}
+    }else{window.alert("全て入力してください");}
   });
 
-  db.collection("users")
+  db.collection("doctor")
     .get()
     .then((querySnapshot) => {
       querySnapshot.forEach((doc) => {
         const data = doc.data();
-        $("#users").append(`<li>${data.firstName} ${data.lastName}</li>`);
+        console.log(data);
       });
     });
 });
