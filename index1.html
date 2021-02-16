@@ -4,19 +4,31 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-giJF6kkoqNQ00vy+HMDP7azOuL0xtbfIcaT9wjKHr8RbDVddVHyTfAAsrekwKmP1" crossorigin="anonymous">
-    <title>私は仕事が大好きです。</title>
+    <title>医者を探す</title>
   </head>
   <body>
-    <!-- <h1>私は仕事が大好きです。</h1> -->
-    
-    <ul id="users"></ul>
-    <input  id="lastName" type="text">
-    <button id="button" type="button" class="btn btn-primary">add</button>
-
+    <article>
+        <h1>医者を探す</h1> 
+        <p>作成途中</p>
+        <p>できれば階層分析法を使ったアルゴリズムを実装したい！</p>
+    </article>
+    <p>
+      <label for="expert">領域</label>
+      <select id="expert">
+        <option value=1️>消化器内科</option>
+        <option value=2>神経内科</option>
+      </select>
+    </p>
+  </p>
+  <button id="button1" type="button" class="btn btn-primary">上記の条件で医者を探す</button>
+  <p></p>
+    <p>
+         <input type="button" value="戻る" class="btn btn-primary" onClick="location.href='home.html'">
+    </p>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-ygbV9kiqUc6oa4msXn9868pTtWMgiQaeYH7/t7LECLbyPA2x65Kgf80OJFdroafW" crossorigin="anonymous"></script>
     <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-firestore.js"></script>
-    <script src="/index.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-firestore.js"></script> 
+  <script src="index1.js"></script>
   </body>
 </html>
