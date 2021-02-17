@@ -15,22 +15,21 @@ const firebaseConfig = {
   $(document).ready(function () {
     $("#button1").on("click", () => {
       let database=[];
-      let count=0;
       const Name = $("#Name").val();
       const atmosphere = $("#atmosphere").val();
       const corresponds = $("#corresponds").val();
       db.collection("doctor").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             const data =doc.data();
-            database.push([data.Name,data.Sex,data.Age,data.expert]);
+            if(data.Name==Name){database.push([data.Name,data.Sex,data.Age,data.expert]);} 
         });
-        for(let item of database){
-          if(item[0]==Name){
-            db.collection("evaluation").add({
-              Name: item[0],
-              Sex: item[1],
-              Age: item[2],
-              expert: item[3],
+            
+        if(database.length==0){window.alert("医者が見つかりませんでした");}else{
+        db.collection("evaluation").add({
+              Name: database[0][0],
+              Sex: database[0][1],
+              Age: database[0][2],
+              expert: database[0][3],
               atmosphere: atmosphere,
               corresponds: corresponds,
           })
@@ -40,11 +39,7 @@ const firebaseConfig = {
           })
           .catch(function(error) {
               console.error("Error adding document: ", error);
-          });	
-          count=count+1;}else{;}
-        } 
-        if (count==0){window.alert("医者が見つかりませんでした");}
-
+          });	}
     });	
         
       });
