@@ -1,0 +1,179 @@
+@charset "UTF-8";
+
+html{
+    font-size:100%;
+}
+
+body{
+    font-family: "Yu Gothic Medium", "游ゴシック Medium", YuGothic, "游ゴシック体", "ヒラギノ角ゴ Pro W3", sans-serif;
+    line-height:1.7;
+    color:rgb(218, 15, 190);
+}
+
+a {
+   text-decoration: none; 
+}
+
+img{
+    max-width:100%;
+}
+.logo{
+    width:10vw;
+    margin-top: 14px;
+}
+.main-nav{
+    display:flex;
+    font-size:1.25rem;
+    text-transform: uppercase;
+    margin-top:6vh;
+    list-style:none;
+}
+.main-nav li{
+    margin-left:4vw;
+}
+
+.main-nav a{
+    color:rgb(233, 16, 34)
+}
+
+.main-nav a:hover {
+    color:rgb(247, 22, 217);
+}
+
+.reset_btn{
+    color:rgb(233, 16, 34)
+}
+
+.page-header{
+    display:flex;
+    /* justify-content: space-between; */
+    justify-content: flex-end;
+}
+
+.wrapper{
+    max-width: 95vw;
+    margin-left: 12px;
+    padding:0 4%;
+}
+
+.home-content{
+    text-align:center;
+    margin-top: 10%;
+}
+
+.home-content p{
+    font-size: 1.125rem;
+    margin: 10px 0 42px; 
+}
+
+.page-title{
+    font-size: 4rem;
+    font-family: 'Philosopher', serif;
+    text-transform: uppercase;
+    font-weight:normal;
+}
+
+.btnbtn-primary{
+    font-size: 1.37rem;
+    background: rgb(221, 0, 74);
+    color:white;
+    border-radius: 5px;
+    border-width: thin;
+    border-style: double;
+    border-color:rebeccapurple;
+    padding:18px 32px;
+  
+}
+
+.btnbtn-primary:hover{
+    background: #aa009c;
+}
+
+.big-bg{
+    background-size: cover;
+    background-position: center top;
+    background-repeat: no-repeat;
+}
+
+#home{
+    background-image: url(../img/Top.jpg),linear-gradient(#c9ffbf,#ffafbd);
+    background-color: #0bd;
+    background-blend-mode: luminosity;
+    min-height:100vh;
+}
+
+#home .page-title{
+    text-transform: none;
+}
+
+
+
+
+footer{
+    background-color: #432;
+    text-align: center;
+    padding:26 0;
+}
+
+footer p{
+    color: #fff;
+    font-size: 0.875rem;
+}
+
+
+
+
+#contact{
+    background-image: url(../img/contact-bg.jpg);
+    min-height:100vh;
+}
+
+form div{
+    margin-bottom: 14px;
+}
+label{
+    font-size: 1.125rem;
+    margin-bottom: 10px;
+    display: block;
+}
+
+input[type="text"],
+#Sex,
+#expert,
+#Place,
+#Email,
+#Doctor_Age,
+#illness,
+#Hospital,
+#Web,
+textarea{
+    background: rgba(255,255,255,.5);
+    border: 1px #fff solid;
+    border-radius: 5px;
+    padding:10px;
+    font-size: 1rem;
+}
+
+textarea{
+    width:100%;
+    max-width: 480px;
+    height:6rem;
+}
+
+.btnbtn-primary{
+    margin-top: 5vh;
+    margin-left: 50vh;
+    margin-right: 30vh;
+    width:200px;
+    border:none;
+    cursor:pointer;
+    line-height:1;
+}
+.quetion-secetion{
+    display:flex;
+    justify-content: flex-start;
+}
+
+.qestion_3row{
+    margin-left: 15vh;
+}
