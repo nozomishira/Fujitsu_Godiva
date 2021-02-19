@@ -47,7 +47,7 @@ jQuery(function()
                   db.collection("evaluation").get().then((querySnapshot) => {
                     querySnapshot.forEach((doc) => {
                         const data =doc.data();
-                        if(data.Name==Name){database.push(data.comment);} 
+                        if(data.Name==Name){if(data.comment){database.push(data.comment);};} 
                     }); 
                     for(let item of database){$("#output").append(`<li>${item}</li>`);}
                     
