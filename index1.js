@@ -23,25 +23,21 @@ function button_click_monitor ()
 {
   jQuery ("#button1").click (function ()
       {
-      const sex=$("#sex").val();
-      const age =Number($("#age").val());
       const expert =$("#expert").val();
+      const important =$("#important").val() ;
+      const sex=$("#sex").val();
+      const age =$("#age").val();
       const Place = $("#Place").val();
-      const weight1 = Number($("#weight1").val());
-      const weight2 = Number($("#weight2").val());
-      const weight3 = Number($("#weight3").val());
-      const weight4 = Number($("#weight4").val());
-      if(sex&&age&&expert&&Place&&weight1&&weight2&&weight3&&weight4){
+      const comment=encodeURIComponent($("#comment").val());
+      if(expert){
       window.location.href = "index4.html?" +  
+      +expert+"="
+      + important+"="
       +sex+"="
       +age+"="
-      +expert+"="
       +Place+"="
-      +weight1+"="
-      +weight2+"="
-      +weight3+"="
-      +weight4;
-      }else{window.alert("全ての項目を入力してください");}})
+      +comment+"=";
+      }else{console.log([expert,important]);}})
       jQuery ("#button2").click (function ()
       {
       const Name=encodeURIComponent($("#Name").val());

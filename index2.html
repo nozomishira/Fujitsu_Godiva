@@ -12,10 +12,6 @@
       <h2>＜評価内容＞</h2>
     </p>
     <p>
-      <label for="Name">評価する医者の名前</label>
-      <input  id="Name" type="text">
-    </p>
-    <p>
       <label for="atmosphere">医者の話しやすさ</label>
       <select id="atmosphere">
         <option value=3>話しやすい</option>
@@ -49,12 +45,16 @@
       </select>
     </p>
     <p>
-      など（評価項目に関しては今後追加予定）
+        <label for="comment">一言で表すと？</label>
+        <input  id="comment" type="text">
     </p>
     <button id="button1" type="button" class="btn btn-primary">評価を登録</button>
     <p></p>
     <p>
-         <input type="button" value="戻る" class="btn btn-primary" onClick="location.href='home.html'">
+        <button class="btn btn-primary" onclick="history.back()">戻る</button>
+    </p>
+    <p>
+         <input type="button" value="Topに戻る" class="btn btn-primary" onClick="location.href='home.html'">
     </p>
 
 

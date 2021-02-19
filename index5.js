@@ -36,12 +36,28 @@ jQuery(function()
       db.collection("evaluation").get().then((querySnapshot) => {
         querySnapshot.forEach((doc) => {
             const data =doc.data();
-            if(data.Name===Name &&data.Hospital===hospital){database.push([data.Name,data.Sex,data.Age,data.expert,data.atmosphere,data.corresponds]);} 
+            if(data.Name===Name &&data.Hospital===hospital){database.push([data.Name,data.Sex,data.Age,data.expert,data.Email,data.Place,data.Doctor_Age,data.illness,data.Hospital,data.web,data.other]);} 
         });
             
         if(database.length==0){$("#output").append("該当する医者がいません");}else{
-            $("#output").append(`<li>${database[0][0]}${database[0][1]}${database[0][2]}${database[0][3]}${database[0][4]}</li>`);
-        	}
-})
+            $("#output").append(`<li>${database[0][0]}${database[0][1]}${database[0][2]}${database[0][3]}${database[0][4]}${database[0][5]}${database[0][6]}${database[0][7]}${database[0][8]}${database[0][9]}${database[0][10]}</li>`);
+            jQuery ("#button6").click (function ()
+      {
+        window.location.href = "index7.html?"+"="+database[0][0]+"="+database[0][1]+"="+database[0][2]+"="+database[0][3]+"="+database[0][4]+"="+database[0][5]+"="+database[0][6]+"="+database[0][7]+"="+database[0][8]+"="+database[0][9]+"="+database[0][10] ;})	
+        jQuery ("#button5").click (function ()
+      {
+      
+      window.location.href = "index2.html?"+"="+database[0][0] ;})
 
-});
+        }
+})
+/*jQuery ("#button6").click (function ()
+      {
+        window.location.href = "index7.html?"+"="+database[0][0]+"="+database[0][1]+"="+database[0][2]+"="+database[0][3]+"=" ;})*/
+      
+
+
+
+    });
+
+
