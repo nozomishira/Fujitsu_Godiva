@@ -17,14 +17,29 @@ $(document).ready(function () {
     const Sex = $("#Sex").val();
     const Age = $("#Age").val();
     const expert = $("#expert").val();
-    if(Name&&Sex&&Age&&expert){
+    const Email = $("#Email").val();
+    const Place = $("#Place").val();
+    const Doctor_Age = $("#Doctor_Age").val();
+    const illness = $("#illness").val();
+    const Hospital = $("#Hospital").val();
+    const Web =$("#Web").val();
+    const other = $("#other").val();
+    if(Name&&Sex&&Age&&expert&&Email&&Place
+        &&Doctor_Age&&illness&&Hospital){
     if(window.confirm("この内容で登録しますか？")){
     db.collection("doctor")
       .add({
         Name: Name,
         Sex: Sex,
         Age: Age,
-        expert: expert
+        expert: expert,
+        Email: Email,
+        Place: Place,
+        Doctor_Age:Doctor_Age,
+        illness:illness,
+        Hospital:Hospital,
+        Web:Web,
+        other:other
       })
       .then(function (docRef) {
         console.log("Document written with ID: ", docRef.id);
