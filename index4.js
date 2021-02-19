@@ -119,9 +119,8 @@ jQuery(function()
                
               for(let l of output){
                   let m = Number(l.id);
-                $("#output").append(`<li>${database[m][0]}${database[m][1]}${database[m][2]}${database[m][2]}${database[m][9]}${database[m][10]}${database[m][11]}${database[m][12]}${database[m][13]}${database[m][14]}${database[m][15]}</li>`);
-                $("#output1").append(`<button id="button5" type="button" >評価</button>`);
-                $("#output2").append(`<button id="button`+m+ `type="button" >詳細</button>`);
+                $("#output").append(`<li>${database[m][0]}${database[m][1]}${database[m][2]}${database[m][2]}${database[m][9]}${database[m][10]}${database[m][11]}${database[m][12]}${database[m][13]}${database[m][14]}${database[m][15]}
+                <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
                }
     
         });
