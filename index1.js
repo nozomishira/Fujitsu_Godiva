@@ -30,7 +30,7 @@ function button_click_monitor ()
       const Place = $("#Place").val();
       const comment=encodeURIComponent($("#comment").val());
       if(expert){
-      window.location.href = "index4.html?" +  
+      window.location.href = "index4.html?" +"="
       +expert+"="
       + important+"="
       +sex+"="

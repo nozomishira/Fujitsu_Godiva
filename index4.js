@@ -24,7 +24,8 @@ function getParam()
         paramsArray.push(neet[2])
         paramsArray.push(neet[3])
         paramsArray.push(neet[4])
-        paramsArray.push(decodeURIComponent(neet[5]))
+        paramsArray.push(neet[5])
+        paramsArray.push(decodeURIComponent(neet[6]))
         }
     //var categoryKey = paramsArray["id"]
     return paramsArray
@@ -37,38 +38,42 @@ jQuery(function()
     console.log(data1);
         let database=[];
         let output=[];
-        let expert = data1[0];
-        let important = data1[1];
-        let sex = data1[2];
-        let age =Number(data1[3]);
-        let Place = data1[4];
-        let comment = data1[5];
+        let expert = data1[1];
+        let important = data1[2];
+        let sex = data1[3];
+        let age =Number(data1[4]);
+        let Place = data1[5];
+        let comment = data1[6];
         db.collection("evaluation").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
+                console.log(doc.id);
                 const data =doc.data();
                 let check=0;
-            if(data.expert=expert){
-            database.push([data.Name,data.Sex,data.Age,data.expert,data.atmosphere,data.corresponds,data.comprehensibility,data.effect,data.comment,data.Email,data.Place,data.Doctor_Age,data.illness,data.Hospital,data.web,data.other]);}else{console.log(false);}
-            if (sex ){if (data.Sex===sex){console.log(true);}
-            else{database.pop();
-                check+=1;
-                console.log(check);
-            }}
-            if(check===0 && age){if (age*10<=data.Age && data.Age<(age+1)*10){console.log(true);}
-            else{database.pop();
-                check+=1;
-                console.log(check);
-            }}  
-            if(check===0 && Place){if (data.Place===Place){console.log(true);}
-            else{database.pop();
-                check+=1;
-                console.log(check);
-            }} 
-            if(check===0 && comment){if (data.comment===comment){console.log(true);}
-            else{database.pop();
-                check+=1;
-                console.log(check);
-            }} 
+                if(data.expert == expert){
+                    database.push([data.Name,data.Sex,data.Age,data.expert,data.atmosphere,data.corresponds,data.comprehensibility,data.effect,data.comment,data.Email,data.Place,data.Doctor_Age,data.illness,data.Hospital,data.web,data.other]);
+                } else{ 
+                    console.log(false);
+                }
+                if (sex ){if (data.Sex===sex){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }}
+                if(check===0 && age){if (age*10<=data.Age && data.Age<(age+1)*10){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }}  
+                if(check===0 && Place){if (data.Place===Place){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }} 
+                if(check===0 && comment){if (data.comment===comment){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }} 
             });
 
             if(database.length==0){$("#output").append("該当する医者はいません");}
