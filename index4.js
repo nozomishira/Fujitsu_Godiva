@@ -22,10 +22,12 @@ function getParam()
         paramsArray.push(neet[0])
         paramsArray.push(neet[1])
         paramsArray.push(neet[2])
-        paramsArray.push(neet[3])
-        paramsArray.push(neet[4])
+        paramsArray.push(decodeURIComponent(neet[3]))
+        paramsArray.push(decodeURIComponent(neet[4]))
         paramsArray.push(neet[5])
-        paramsArray.push(decodeURIComponent(neet[6]))
+        paramsArray.push(neet[6])
+        paramsArray.push(neet[7])
+        paramsArray.push(decodeURIComponent(neet[8]))
         }
     //var categoryKey = paramsArray["id"]
     return paramsArray
@@ -40,10 +42,12 @@ jQuery(function()
         let output=[];
         let expert = data1[1];
         let important = data1[2];
-        let sex = data1[3];
-        let age =Number(data1[4]);
-        let Place = data1[5];
-        let comment = data1[6];
+        let Name = data1[3];
+        let hospital = data1[4]; 
+        let sex = data1[5];
+        let age =Number(data1[6]);
+        let Place = data1[7];
+        let comment = data1[8];
         db.collection("evaluation").get().then((querySnapshot) => {
             querySnapshot.forEach((doc) => {
                 console.log(doc.id);
@@ -70,6 +74,16 @@ jQuery(function()
                     console.log(check);
                 }} 
                 if(check===0 && comment){if (data.comment===comment){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }} 
+                if(check===0 && Name){if (data.Name===Name){console.log(true);}
+                else{database.pop();
+                    check+=1;
+                    console.log(check);
+                }} 
+                if(check===0 && hospital){if (data.Hospital===hospital){console.log(true);}
                 else{database.pop();
                     check+=1;
                     console.log(check);
@@ -122,11 +136,20 @@ jQuery(function()
                 }
               })
                
+              let ids =[];
               for(let l of output){
                   let m = Number(l.id);
-                $("#output").append(`<li>${database[m][0]}${database[m][1]}${database[m][2]}${database[m][2]}${database[m][9]}${database[m][10]}${database[m][11]}${database[m][12]}${database[m][13]}${database[m][14]}${database[m][15]}
+                  ids.push(m);
+               $("#output").append(`<li>${database[m][0]}${database[m][1]}${database[m][2]}${database[m][3]}${database[m][9]}${database[m][10]}${database[m][11]}${database[m][12]}${database[m][13]}${database[m][14]}${database[m][15]}
                 <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
                }
+               jQuery ("#button6").click (function ()
+               {
+                 window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
+               jQuery ("#button5").click (function ()
+               {
+               
+               window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})
     
         });
         console.log(database);
