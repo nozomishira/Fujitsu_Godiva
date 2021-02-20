@@ -29,7 +29,6 @@ function getParam()
         paramsArray.push(neet[7])
         paramsArray.push(decodeURIComponent(neet[8]))
         }
-    //var categoryKey = paramsArray["id"]
     return paramsArray
 }
 
@@ -48,115 +47,228 @@ jQuery(function()
         let age =Number(data1[6]);
         let Place = data1[7];
         let comment = data1[8];
+        
+        const evaluations = [];
+        
         db.collection("evaluation").get().then((querySnapshot) => {
-            querySnapshot.forEach((doc) => {
-                console.log(doc.id);
-                const data =doc.data();
-                let check=0;
-                if(data.expert == expert){
-                    database.push([data.Name,data.Sex,data.Age,data.expert,data.atmosphere,data.corresponds,data.comprehensibility,data.effect,data.comment,data.Email,data.Place,data.Doctor_Age,data.illness,data.Hospital,data.web,data.other]);
-                } else{ 
-                    console.log(false);
-                }
-                if (sex ){if (data.Sex===sex){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }}
-                if(check===0 && age){if (age*10<=data.Age && data.Age<(age+1)*10){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }}  
-                if(check===0 && Place){if (data.Place===Place){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }} 
-                if(check===0 && comment){if (data.comment===comment){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }} 
-                if(check===0 && Name){if (data.Name===Name){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }} 
-                if(check===0 && hospital){if (data.Hospital===hospital){console.log(true);}
-                else{database.pop();
-                    check+=1;
-                    console.log(check);
-                }} 
-            });
-
-            if(database.length==0){$("#output").append("該当する医者はいません");}
-            for(let i=0;i<(database.length);i++){
-                let atmosphere=0;
-                let corresponds=0;
-                let comprehensibility=0;
-                let effect=0;
-                let count=0;
-                let check=0;
-                for(let item of database){
-                    if(database[i][0]==item[0]){
-                        count=count+1;
-                        atmosphere=(atmosphere+Number(item[4]));
-                        corresponds=(corresponds+Number(item[5]));
-                        comprehensibility=(comprehensibility+Number(item[6]));
-                        effect=(effect+Number(item[7]));
+            const evaluations = querySnapshot.docs.map((doc) => doc.data());
+            console.log(evaluations);
+            if(important==1){
+                const filteredEvaluations = evaluations
+                .filter(x => x.expert === expert)
+                .filter(x => sex ? x.Sex === sex : true)
+                .filter(x => age ? x.Age === age : true)
+                .filter(x => Name ? x.Name === Name : true)
+                .filter(x => hospital ? x.Hospital === Name : true)
+                .filter(x => Place ? x.Place === Place : true)
+                .filter(x => comment ? x.comment === comment : true)
+                .map(x => ({
+                    ...x,
+                    score: Number(x.atmosphere)*2 + Number(x.corresponds) + Number(x.comprehensibility) +Number(x.effect)
+                }))
+                for(let i=0;i<(filteredEvaluations.length);i++){
+                    let score=0;
+                    let count =0;
+                    let check=0;
+                    for(let j of filteredEvaluations){
+                        if(filteredEvaluations[i].Name===j.Name){
+                            score+=j.score;
+                            count+=1;
+                            ;}
                         ;}
-                }
-                for(let k of output){
-                if(database[i][0]==k.Name){
-                    check=check+1;
-                ;}else{;}}
-                if(check==0){
-                    if(important==1){
-                    const score = (2*(atmosphere)+(corresponds)+(comprehensibility)+(effect))/count;
-                    output.push({Name:database[i][0],id:i,score:score});}
-                    else if (important ==2){
-                    const score = ((atmosphere)+2*(corresponds)+(comprehensibility)+(effect))/count;
-                    output.push({Name:database[i][0],id:i,score:score});}
-                    else if (important ==3){
-                    const score = ((atmosphere)+(corresponds)+2*(comprehensibility)+(effect))/count;
-                    output.push({Name:database[i][0],id:i,score:score});}
-                    else if (important ==4){
-                    const score = ((atmosphere)+(corresponds)+(comprehensibility)+2*(effect))/count;
-                    output.push({Name:database[i][0],id:i,score:score});}
-                    }
-                }
-    
-            
+                    if(check==0){
+                    output.push({Name:filteredEvaluations[i].Name,id:i,score:(score/count)});
+                    check+=1;}
+                    ;}
+            console.log(output);
             output.sort(function (a, b) {
-                if (a.score < b.score) {
-                  return 1;
-                } else {
-                  return -1;
-                }
-              })
-               
-              let ids =[];
-              for(let l of output){
-                  let m = Number(l.id);
-                  ids.push(m);
-               $("#output").append(`<li>${database[m][0]}${database[m][1]}${database[m][2]}${database[m][3]}${database[m][9]}${database[m][10]}${database[m][11]}${database[m][12]}${database[m][13]}${database[m][14]}${database[m][15]}
-                <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
-               }
-               jQuery ("#button6").click (function ()
-               {
-                 window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
-               jQuery ("#button5").click (function ()
-               {
-               
-               window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})
-    
+                        if (a.score < b.score) {
+                          return 1;
+                         } else {
+                          return -1;
+                         }
+                       })
+           for(let l of output){
+              m= l.id;
+              $("#output").append(`<li>${filteredEvaluations[m].Name}${filteredEvaluations[m].Sex}${filteredEvaluations[m].Age}${filteredEvaluations[m].expert}${filteredEvaluations[m].Email}${filteredEvaluations[m].Place}${filteredEvaluations[m].Doctor_Age}${filteredEvaluations[m].illness}${filteredEvaluations[m].Hospital}${filteredEvaluations[m].web}${filteredEvaluations[m].other}
+              <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
+                  
+                 /* 値をindex7.html，index2.htmlに渡す部分
+                 jQuery ("#button6").click (function ()
+                        {
+                            window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
+                          jQuery ("#button5").click (function ()
+                          {
+                         
+                          window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})*/}
+              
+
+                ;}
+            if(important==2){
+                const filteredEvaluations = evaluations
+                .filter(x => x.expert === expert)
+                .filter(x => sex ? x.Sex === sex : true)
+                .filter(x => age ? x.Age === age : true)
+                .filter(x => Name ? x.Name === Name : true)
+                .filter(x => hospital ? x.Hospital === Name : true)
+                .filter(x => Place ? x.Place === Place : true)
+                .filter(x => comment ? x.comment === comment : true)
+                .map(x => ({
+                     ...x,
+                    score: Number(x.atmosphere) + Number(x.corresponds)*2 + Number(x.comprehensibility) +Number(x.effect)
+                }))
+                for(let i=0;i<(filteredEvaluations.length);i++){
+                    let score=0;
+                    let count =0;
+                    let check=0;
+                    for(let j of filteredEvaluations){
+                        if(filteredEvaluations[i].Name===j.Name){
+                            score+=j.score;
+                            count+=1;
+                            ;}
+                        ;}
+                    if(check==0){
+                    output.push({Name:filteredEvaluations[i].Name,id:i,score:(score/count)});
+                    check+=1;}
+                    ;}
+            console.log(output);
+            output.sort(function (a, b) {
+                        if (a.score < b.score) {
+                          return 1;
+                         } else {
+                          return -1;
+                         }
+                       })
+           for(let l of output){
+              m= l.id;
+              $("#output").append(`<li>${filteredEvaluations[m].Name}${filteredEvaluations[m].Sex}${filteredEvaluations[m].Age}${filteredEvaluations[m].expert}${filteredEvaluations[m].Email}${filteredEvaluations[m].Place}${filteredEvaluations[m].Doctor_Age}${filteredEvaluations[m].illness}${filteredEvaluations[m].Hospital}${filteredEvaluations[m].web}${filteredEvaluations[m].other}
+              <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
+                  
+                 /*  値をindex7.html，index2.htmlに渡す部分
+                 jQuery ("#button6").click (function ()
+                        {
+                            window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
+                          jQuery ("#button5").click (function ()
+                          {
+                         
+                          window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})*/}
+              
+
+                ;}
+            //console.log(filteredEvaluations);
+                
+            if(important==3){
+                const filteredEvaluations = evaluations
+                .filter(x => x.expert === expert)
+                .filter(x => sex ? x.Sex === sex : true)
+                .filter(x => age ? x.Age === age : true)
+                .filter(x => Name ? x.Name === Name : true)
+                .filter(x => hospital ? x.Hospital === Name : true)
+                .filter(x => Place ? x.Place === Place : true)
+                .filter(x => comment ? x.comment === comment : true)
+                .map(x => ({
+                    ...x,
+                    score: Number(x.atmosphere) + Number(x.corresponds) + Number(x.comprehensibility)*2 +Number(x.effect)
+                }))
+            console.log(filteredEvaluations);
+            for(let i=0;i<(filteredEvaluations.length);i++){
+                let score=0;
+                let count =0;
+                let check=0;
+                for(let j of filteredEvaluations){
+                    if(filteredEvaluations[i].Name===j.Name){
+                        score+=j.score;
+                        count+=1;
+                        ;}
+                    ;}
+                if(check==0){
+                output.push({Name:filteredEvaluations[i].Name,id:i,score:(score/count)});
+                check+=1;}
+                ;}
+        console.log(output);
+        output.sort(function (a, b) {
+                    if (a.score < b.score) {
+                      return 1;
+                     } else {
+                      return -1;
+                     }
+                   })
+       for(let l of output){
+          m= l.id;
+          $("#output").append(`<li>${filteredEvaluations[m].Name}${filteredEvaluations[m].Sex}${filteredEvaluations[m].Age}${filteredEvaluations[m].expert}${filteredEvaluations[m].Email}${filteredEvaluations[m].Place}${filteredEvaluations[m].Doctor_Age}${filteredEvaluations[m].illness}${filteredEvaluations[m].Hospital}${filteredEvaluations[m].web}${filteredEvaluations[m].other}
+          <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
+              
+             /*値をindex7.html，index2.htmlに渡す部分 
+             jQuery ("#button6").click (function ()
+                    {
+                        window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
+                      jQuery ("#button5").click (function ()
+                      {
+                     
+                      window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})*/}
+          
+
+            ;}
+            
+             if(important==4){
+                const filteredEvaluations = evaluations
+                .filter(x => x.expert === expert)
+                .filter(x => sex ? x.Sex === sex : true)
+                .filter(x => age ? x.Age === age : true)
+                .filter(x => Name ? x.Name === Name : true)
+                .filter(x => hospital ? x.Hospital === Name : true)
+                .filter(x => Place ? x.Place === Place : true)
+                .filter(x => comment ? x.comment === comment : true)
+                .map(x => ({
+                    ...x,
+                    score: Number(x.atmosphere) + Number(x.corresponds) + Number(x.comprehensibility) +Number(x.effect)*2
+                }))
+            console.log(filteredEvaluations);
+            for(let i=0;i<(filteredEvaluations.length);i++){
+                let score=0;
+                let count =0;
+                let check=0;
+                for(let j of filteredEvaluations){
+                    if(filteredEvaluations[i].Name===j.Name){
+                        score+=j.score;
+                        count+=1;
+                        ;}
+                    ;}
+                if(check==0){
+                output.push({Name:filteredEvaluations[i].Name,id:i,score:(score/count)});
+                check+=1;}
+                ;}
+        console.log(output);
+        output.sort(function (a, b) {
+                    if (a.score < b.score) {
+                      return 1;
+                     } else {
+                      return -1;
+                     }
+                   })
+       for(let l of output){
+          m= l.id;
+          $("#output").append(`<li>${filteredEvaluations[m].Name}${filteredEvaluations[m].Sex}${filteredEvaluations[m].Age}${filteredEvaluations[m].expert}${filteredEvaluations[m].Email}${filteredEvaluations[m].Place}${filteredEvaluations[m].Doctor_Age}${filteredEvaluations[m].illness}${filteredEvaluations[m].Hospital}${filteredEvaluations[m].web}${filteredEvaluations[m].other}
+          <button id="button5" type="button" >評価</button><button id="button6" type="button" >詳細</button></li>`);
+              
+             /*値をindex7.html，index2.htmlに渡す部分 
+             jQuery ("#button6").click (function ()
+                    {
+                        window.location.href = "index7.html?"+"="+database[ids[0]][0]+"="+database[ids[0]][1]+"="+database[ids[0]][2]+"="+database[ids[0]][3]+"="+database[ids[0]][4]+"="+database[ids[0]][5]+"="+database[ids[0]][6]+"="+database[ids[0]][7]+"="+database[ids[0]][8]+"="+database[ids[0]][9]+"="+database[ids[0]][10] ;})	
+                      jQuery ("#button5").click (function ()
+                      {
+                     
+                      window.location.href = "index2.html?"+"="+database[ids[0]][0] ;})*/}
+          
+
+            ;}
+
+            
         });
+
+
+       
         console.log(database);
         console.log(output);
-        //a+=1;
-    //}else{
-        //window.alert("選択を解除してください")
-        //;}
 })
 
