@@ -25,6 +25,8 @@ function button_click_monitor ()
       {
       const expert =$("#expert").val();
       const important =$("#important").val() ;
+      const Name=encodeURIComponent($("#Name").val());
+      const hospital =encodeURIComponent($("#hospital").val());
       const sex=$("#sex").val();
       const age =$("#age").val();
       const Place = $("#Place").val();
@@ -33,6 +35,8 @@ function button_click_monitor ()
       window.location.href = "index4.html?" +"="
       +expert+"="
       + important+"="
+      +Name+"="
+      +hospital+"="
       +sex+"="
       +age+"="
       +Place+"="
